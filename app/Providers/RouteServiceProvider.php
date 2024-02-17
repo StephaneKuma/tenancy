@@ -80,8 +80,6 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Get the list of central domains from the configuration.
-     *
-     * @return array
      */
     protected function centralDomains(): array
     {
