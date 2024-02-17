@@ -28,13 +28,63 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 
-        $this->routes(function () {
-            Route::middleware('api')
-                ->prefix('api')
-                ->group(base_path('routes/api.php'));
+        // $this->routes(function () {
+        //     Route::middleware('api')
+        //         ->prefix('api')
+        //         ->group(base_path('routes/api.php'));
 
-            Route::middleware('web')
-                ->group(base_path('routes/web.php'));
+        //     Route::middleware('web')
+        //         ->group(base_path('routes/web.php'));
+        // });
+
+        $this->routes(function () {
+            $this->mapApiRoutes();
+            $this->mapWebRoutes();
         });
+    }
+
+    /**
+     * Map web routes for each central domain
+     */
+    protected function mapWebRoutes()
+    {
+        // Get the list of central domains
+        $domains = $this->centralDomains();
+
+        // Loop through each central domain and map web routes
+        foreach ($domains as $domain) {
+            Route::middleware('web')
+                ->domain($domain)
+                ->namespace($this->namespace)
+                ->group(base_path('routes/web.php'));
+        }
+    }
+
+    /**
+     * Map the API routes for the application.
+     */
+    protected function mapApiRoutes()
+    {
+        // Get the list of central domains
+        $domains = $this->centralDomains();
+
+        // Loop through the central domains and map the API routes for each domain
+        foreach ($domains as $domain) {
+            Route::prefix('api')
+                ->domain($domain)
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api.php'));
+        }
+    }
+
+    /**
+     * Get the list of central domains from the configuration.
+     *
+     * @return array
+     */
+    protected function centralDomains(): array
+    {
+        return config('tenancy.central_domains');
     }
 }
