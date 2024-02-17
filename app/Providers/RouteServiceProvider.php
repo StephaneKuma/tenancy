@@ -46,7 +46,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Map web routes for each central domain
      */
-    protected function mapWebRoutes()
+    protected function mapWebRoutes(): void
     {
         // Get the list of central domains
         $domains = $this->centralDomains();
@@ -63,7 +63,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Map the API routes for the application.
      */
-    protected function mapApiRoutes()
+    protected function mapApiRoutes(): void
     {
         // Get the list of central domains
         $domains = $this->centralDomains();
@@ -80,6 +80,8 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Get the list of central domains from the configuration.
+     *
+     * @return array<int, string> - Returns an array of domains
      */
     protected function centralDomains(): array
     {
