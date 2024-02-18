@@ -1,63 +1,55 @@
-<script>
+<script setup>
 import profileImg from "../../../images/profile-img.png";
 import logo from "../../../images/logo.svg";
 import axios from "axios";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-/**
- * Register component
- */
-export default {
-    data() {
-        return {
-            auth: {
-                name: "",
-                email: "",
-                password: "",
-                password_confirmation: "",
-            },
-            profileImg,
-            logo,
-            processing: false,
-            regError: null,
-            isRegisterError: false,
-        };
-    },
-    methods: {
-        async register() {
-            this.processing = true;
-            //   await axios.post('/api/register', this.auth).then(({ data }) => {
-            //     console.log('data', data)
-            //     if (data.success == true && data.message == 'success') {
-            //       const logged_user = {
-            //         login: true,
-            //         user_id: data.data.id,
-            //         name: data.data.name,
-            //         email: data.data.email,
-            //       }
-            //       localStorage.setItem('user', JSON.stringify(logged_user));
-            //       this.$router.push('/');
-            //     } else {
-            //       if(data.data == 400) {
-            //         this.regError = data.message;
-            //         this.isRegisterError = true;
-            //       }
-            //     }
-            //   }).catch(({response:{data}}) => {
-            //     console.log(data)
-            //   }).finally(() => {
-            //     this.processing = false
-            //   })
-            const loggedUser = {
-                login: true,
-                user_id: 1,
-                name: "Admin",
-                email: "admin@tenancy.wip",
-            };
-            localStorage.setItem("user", JSON.stringify(loggedUser));
-            this.processing = false;
-            this.$router.push("/");
-        },
-    },
+const router = useRouter();
+
+const auth = ref({
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+});
+const processing = ref(false);
+const regError = ref(null);
+const isRegisterError = ref(false);
+
+const register = async () => {
+    processing = true;
+    //   await axios.post('/register', auth).then(({ data }) => {
+    //     console.log('data', data)
+    //     if (data.success == true && data.message == 'success') {
+    //       const logged_user = {
+    //         login: true,
+    //         user_id: data.data.id,
+    //         name: data.data.name,
+    //         email: data.data.email,
+    //       }
+    //       localStorage.setItem('user', JSON.stringify(logged_user));
+    //       $router.push('/');
+    //     } else {
+    //       if(data.data == 400) {
+    //         regError = data.message;
+    //         isRegisterError = true;
+    //       }
+    //     }
+    //   }).catch(({response:{data}}) => {
+    //     console.log(data)
+    //   }).finally(() => {
+    //     processing = false
+    //   })
+    const loggedUser = {
+        login: true,
+        user_id: 1,
+        name: "Admin",
+        email: "admin@tenancy.wip",
+    };
+    localStorage.setItem("user", JSON.stringify(loggedUser));
+    processing.value = false;
+    router.push("/");
 };
 </script>
 

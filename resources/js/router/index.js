@@ -4,9 +4,9 @@ const routes = [
     {
         path: '/',
         name: 'dashboard',
-        meta: { 
-                title: 'Dashboard', 
-                authRequired: true, 
+        meta: {
+                title: 'Dashboard',
+                authRequired: true,
             },
         component: () => import('../views/home.vue'),
     },
@@ -128,7 +128,7 @@ const router = createRouter({
 router.beforeEach(async (routeTo, routeFrom, next) => {
     // set title name
     if (routeTo.meta.title != undefined) {
-        document.title = routeTo.meta.title + " | Skote Laravel 10 + Vue 3 Admin & Dashboard";
+        document.title = routeTo.meta.title + " | Tenancy";
     }
 
     const authRequired = routeTo.matched.some((route) => route.meta.authRequired);

@@ -1,33 +1,27 @@
-<script>
+<script setup>
 import profileImg from "../../../images/profile-img.png";
 import logo from "../../../images/logo.svg";
 import axios from "axios";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-/**
- * Login component
- */
-export default {
-    data() {
-        return {
-            auth: {
-                email: "",
-                password: "",
-            },
-            profileImg,
-            logo,
-            processing: false,
-            authError: null,
-            isAuthError: false,
-        };
-    },
-    beforeCreate() {
-        if (localStorage.getItem("user")) {
-            this.$router.push("/");
-        }
-    },
-    methods: {
-        async login() {
-            this.processing = true;
+const router = useRouter();
+
+const auth = ref({
+    email: "",
+    password: "",
+});
+
+const processing = ref(false);
+const authError = ref(null);
+const isAuthError = ref(false);
+
+if (localStorage.getItem("user")) {
+    this.$router.push("/");
+}
+
+const login = async () => {
+            processing.value = true;
             //   await axios.post('/api/login', this.auth).then(({ data }) => {
             //     if (data.success == true && data.message == 'success') {
             //       const logged_user = {
@@ -57,11 +51,9 @@ export default {
                 email: "admin@tenancy.wip",
             };
             localStorage.setItem("user", JSON.stringify(loggedUser));
-            this.processing = false;
-            this.$router.push("/");
-        },
-    },
-};
+            processing.value = false;
+            router.push("/");
+        }
 </script>
 
 <template>
